@@ -15,7 +15,6 @@ module.exports = {
         await interaction.deferReply();
 
         try {
-            // Buscar resumo da página no Wikipedia
             const resumoResponse = await axios.get(`https://pt.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(pesquisa)}`);
 
             if (resumoResponse.status === 200 && resumoResponse.data.extract) {
@@ -24,7 +23,6 @@ module.exports = {
                 return;
             }
 
-            // Se resumo não encontrado, buscar páginas relacionadas
             console.log("Página exata não encontrada, tentando sugestões...");
             const relatedResponse = await axios.get(`https://pt.wikipedia.org/api/rest_v1/page/related/${encodeURIComponent(pesquisa)}`);
 
@@ -36,7 +34,6 @@ module.exports = {
                 return;
             }
 
-            // Caso nenhuma informação seja encontrada
             await interaction.editReply('Não consegui encontrar informações sobre isso no Wikipedia. Por favor, tente ser mais específico!');
         } catch (error) {
             console.error('Erro ao buscar no Wikipedia:', error);
